@@ -9,7 +9,7 @@
 // w = width of cube
 // a = angle of bend.  0 = U, 180 = ---
 // h = height of cube
-
+bend_demo();
 
 module bend_demo()
 {
