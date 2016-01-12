@@ -34,7 +34,7 @@ translate([63,0,0]){
 
 module adaptadorAngular(){
 	translate([-30,63,0]){
-		rotate( [0,60,0]){
+		rotate( [0,90,0]){
 			cylinder( r = 26 , h = 30 );
 			#cylinder( r = 5 , h = 32);
 		}
