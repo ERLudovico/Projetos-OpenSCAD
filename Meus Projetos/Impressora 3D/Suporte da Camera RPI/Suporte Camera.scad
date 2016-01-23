@@ -1,0 +1,3 @@
+include <CameraRPI.scad>;
+
+camera();
