@@ -33,37 +33,45 @@ cameraConecAlt = 2.4 * FC ;
 cameraCircuitoFuroLar = 1.85 * FC ;
 
 ////////////////////////// MODULOS ////////////////////////////////
-module camera(){
-    union(){
+module placaCCD(){
         // Placa de circuito impresso
-        color ("darkgreen") 
+    color ("darkgreen"){ 
         cube( [cameraCircuitoProfun, cameraCircuitoLar, cameraCircuitoAlt] , center = true);
-        // Conector odo flat cable da camera
+    }    // Conector odo flat cable da camera
+    color ("white"){
         translate([ ( cameraCircuitoProfun / 2 ) - ( cameraConecProfun / 2 )  , 0 , cameraCircuitoAlt ]){
             cube([cameraConecProfun, cameraConecLar, cameraConecAlt] , center = true );
         }
+    }
+}
 
-        // Jogo de lentes
-        translate ( [ -cameraBasevLar / 2 , -cameraBaseProfun / 2 , cameraCircuitoAlt / 2 ] ){ 
-            color ("gray")
-            cube([cameraBasevLar, cameraBaseProfun, cameraBaseAlt]);
-        }
-        
-        translate([ 0 , 0 , ( cameraCircuitoAlt / 2 ) + cameraBaseAlt ]){
-           color ("gray")
-           cylinder( r = cameraLenteLar / 2 , h = cameraLenteAlt );
-        }
-        translate([ 0 , 0 , ( cameraCircuitoAlt / 2 ) + cameraBaseAlt + cameraLenteAlt]){
-            color("gray")
-            cylinder( r = cameraLenteFocoLar / 2 , h = cameraLenteFocoAlt );
-        }
-        translate([ 0 , 0 , ( cameraCircuitoAlt / 2 ) + cameraBaseAlt+ cameraLenteAlt + cameraLenteFocoAlt ]){
-           color ("gray")
-           cylinder( r = cameraLenteLar / 2 - 0.5 , h = cameraLenteAlt );
-        }
 
-        // Retirando os furos para os parafusos
-        difference(){ 
+
+module CCD(){
+    translate ( [ -cameraBasevLar / 2 , -cameraBaseProfun / 2 , cameraCircuitoAlt / 2 ] ){ 
+        color ("gray")
+        cube([cameraBasevLar, cameraBaseProfun, cameraBaseAlt]);
+    }
+}
+
+
+module jogoLentes(){
+   translate([ 0 , 0 , ( cameraCircuitoAlt / 2 ) + cameraBaseAlt ]){
+       color ("gray")
+       cylinder( r = cameraLenteLar / 2 , h = cameraLenteAlt );
+    }
+    translate([ 0 , 0 , ( cameraCircuitoAlt / 2 ) + cameraBaseAlt + cameraLenteAlt]){
+        color("gray")
+        cylinder( r = cameraLenteFocoLar / 2 , h = cameraLenteFocoAlt );
+    }
+    translate([ 0 , 0 , ( cameraCircuitoAlt / 2 ) + cameraBaseAlt+ cameraLenteAlt + cameraLenteFocoAlt ]){
+       color ("gray")
+       cylinder( r = cameraLenteLar / 2 - 0.5 , h = cameraLenteAlt );
+    }    
+}
+
+
+module parafusoBase(){
             // Furos da placa para os parafusos 1
             translate([ ( cameraCircuitoProfun / 2 ) - 1.5 , ( cameraCircuitoLar / 2 ) - 1.5, 0 ]){
                #cylinder( r =  cameraCircuitoFuroLar / 2 , h = cameraCircuitoAlt + 0.25 , center = true);
@@ -79,11 +87,24 @@ module camera(){
             // Furos da placa para os parafusos 4
             translate([ ( cameraCircuitoProfun / 2 ) - 1.5 , ( - cameraCircuitoLar / 2 ) + 1.5, 0 ]){
                #cylinder( r =  cameraCircuitoFuroLar / 2 , h = cameraCircuitoAlt + 0.25 , center = true);
-            }
-        }                
-    }    
+            }    
 }
 
 
-////////////////////////// REDERIZACAO ////////////////////////////////
+module camera(){
+    difference(){    
+        union(){
+            // Placa de circuito impresso
+            placaCCD(); 
+            // CCD
+            CCD();
+            // JOGO DE LENTES
+            jogoLentes();
+        }
+            // Retirando os furos para os parafusos
+            parafusoBase();
+    }
+}
 
+////////////////////////// REDERIZACAO ////////////////////////////////
+camera();
