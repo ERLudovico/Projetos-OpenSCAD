@@ -35,5 +35,7 @@ module suporteCamera(){
 ////////////////////  RENDERIZACAO //////////////////////////
 
 
-camera();
+%camera("false");
 suporteCamera();
+
+echo(version=version());

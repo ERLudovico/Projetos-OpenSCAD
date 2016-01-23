@@ -3,7 +3,7 @@
 $fa = 1.5;
 $fs = 0.5;
 
-FC = 1;
+FC = 0.98;
 
 // Placa de circuito impresso
 cameraCircuitoLar = 32 * FC ;
