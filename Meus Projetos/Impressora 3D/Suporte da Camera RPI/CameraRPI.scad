@@ -3,7 +3,7 @@
 $fa = 1.5;
 $fs = 0.5;
 
-FC = 1.025;
+FC = 1;
 
 // Placa de circuito impresso
 cameraCircuitoLar = 32 * FC ;
@@ -55,7 +55,7 @@ module CCD(){
 }
 
 
-module jogoLentes(){
+module jogoLentes( stl ){
    translate([ 0 , 0 , ( cameraCircuitoAlt / 2 ) + cameraBaseAlt ]){
        color ("gray")
        cylinder( r = cameraLenteLar / 2 , h = cameraLenteAlt );
@@ -66,7 +66,11 @@ module jogoLentes(){
     }
     translate([ 0 , 0 , ( cameraCircuitoAlt / 2 ) + cameraBaseAlt+ cameraLenteAlt + cameraLenteFocoAlt ]){
        color ("gray")
-       cylinder( r = cameraLenteLar / 2 - 0.5 , h = cameraLenteAlt );
+        if ( stl == "true" ){
+            cylinder( r = cameraLenteFocoLar / 2 , h = cameraLenteAlt );
+        } else {
+            cylinder( r = cameraLenteLar / 2 - 0.5 , h = cameraLenteAlt );
+        }
     }    
 }
 
@@ -91,7 +95,7 @@ module parafusoBase(){
 }
 
 
-module camera(){
+module camera( stl ){
     difference(){    
         union(){
             // Placa de circuito impresso
@@ -99,7 +103,7 @@ module camera(){
             // CCD
             CCD();
             // JOGO DE LENTES
-            jogoLentes();
+            jogoLentes( stl);
         }
             // Retirando os furos para os parafusos
             parafusoBase();
@@ -107,4 +111,4 @@ module camera(){
 }
 
 ////////////////////////// REDERIZACAO ////////////////////////////////
-camera();
+//camera( "true" );
